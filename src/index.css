@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-title: "Playfair Display", "serif";
+  --font-main: "Source Sans 3", "serif";
+  --font-userText: "EB Garamond", "serif";
+  --shadow-custom: 4px 4px 5px rgba(0, 0, 0, 0.5);
+
+  --color-main: #191919;
+  --color-mainSecondary: #4c4c4c;
+  --color-background: #ffffff;
+  --color-itemBackground: #e6e6e6;
+
+  --color-mainDark: #e6e6e6;
+  --color-mainSecondaryDark: #d9d9d9;
+  --color-backgroundDark: #0d0d0d;
+  --color-itemBackgroundDark: #333333;
+
+  --color-primary: #2c5558;
+  --color-secondary: #c89293;
+  --color-accent: #9d974d;
+  --color-excellent: #34c759;
+  --color-good: #ffcc00;
+  --color-average: #ff9500;
+  --color-bad: #ff3b30;
+}
