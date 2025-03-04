@@ -1,32 +1,27 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import {
+  useGetTrendingMoviesQuery,
+  useLazyGetUsersReviewsQuery,
+} from "./api/api";
 
 function App() {
-  const [count, setCount] = useState(0);
-
+  const trendingMovies = useGetTrendingMoviesQuery("week");
+  const [trigger, reviews] = useLazyGetUsersReviewsQuery();
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="text-accent font-userText">
-        Click on the Vite and React logos to learn more
-      </p>
+      {trendingMovies.isLoading && <p>Loading...</p>}
+
+      {trendingMovies.isSuccess &&
+        trendingMovies.data.results.map((movie) => {
+          return (
+            <div>
+              <p>
+                {movie.title} --- {movie.overview}
+              </p>
+            </div>
+          );
+        })}
+
+      <button onClick={() => trigger()}>Get reviews</button>
     </>
   );
 }
