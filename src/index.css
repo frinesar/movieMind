@@ -27,6 +27,16 @@
   --color-bad: #ff3b30;
 }
 
+body {
+  color: var(--color-main);
+  background-color: var(--color-background);
+}
+
+html.dark body {
+  color: var(--color-mainDark);
+  background-color: var(--color-backgroundDark);
+}
+
 .wrapper {
   margin: auto;
   max-width: 1024px;
@@ -39,6 +49,6 @@ svg {
 
 @media (width <= 1024px) {
   .wrapper {
-    padding-inline: min(12px, 5%);
+    padding-inline: min(20px, 4%);
   }
 }
