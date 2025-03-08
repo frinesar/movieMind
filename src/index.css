@@ -26,3 +26,19 @@
   --color-average: #ff9500;
   --color-bad: #ff3b30;
 }
+
+.wrapper {
+  margin: auto;
+  max-width: 1024px;
+}
+
+svg {
+  pointer-events: bounding-box;
+  cursor: pointer;
+}
+
+@media (width <= 1024px) {
+  .wrapper {
+    padding-inline: min(12px, 5%);
+  }
+}

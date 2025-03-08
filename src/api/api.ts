@@ -54,9 +54,37 @@ export const apiSlice = createApi({
           method: "get",
         }),
       }),
+      login: build.mutation<
+        { accessToken: string },
+        { username: string; password: string }
+      >({
+        query: (data) => ({
+          url: "/users/login",
+          method: "post",
+          data,
+        }),
+      }),
+      signUp: build.mutation<void, { username: string; password: string }>({
+        query: (data) => ({
+          url: "/users",
+          method: "post",
+          data,
+        }),
+      }),
+      logout: build.mutation<void, void>({
+        query: () => ({
+          url: "/users/logout",
+          method: "post",
+        }),
+      }),
     };
   },
 });
 
-export const { useGetTrendingMoviesQuery, useLazyGetUsersReviewsQuery } =
-  apiSlice;
+export const {
+  useGetTrendingMoviesQuery,
+  useLazyGetUsersReviewsQuery,
+  useLoginMutation,
+  useLogoutMutation,
+  useSignUpMutation,
+} = apiSlice;
