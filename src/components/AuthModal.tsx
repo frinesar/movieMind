@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import Modal from "./Modal";
 import { useLoginMutation, useSignUpMutation } from "../api/api";
 import LoadingSpinner from "./LoadingSpinner";
-import { useAppDispatch } from "../store/hooks";
-import { closeAuthModal } from "../reducers/authModalSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import {
+  closeAuthModal,
+  selectAuthModalIsOpen,
+} from "../reducers/authModalSlice";
 import Button from "./Button";
 
 function AuthModal() {
+  const isOpen = useAppSelector(selectAuthModalIsOpen);
   const [loginTrigger, loginResult] = useLoginMutation();
   const [signUp, signUpResult] = useSignUpMutation();
   const [userData, setUserData] = useState({ username: "", password: "" });
@@ -21,9 +24,11 @@ function AuthModal() {
     }
   }, [loginResult.isSuccess, signUpResult.isSuccess]);
 
+  if (!isOpen) {
+    return null;
+  }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       if (isNewProfile) {
         await signUp(userData).unwrap();
@@ -34,7 +39,7 @@ function AuthModal() {
     }
   };
 
-  return createPortal(
+  return (
     <Modal closeModal={() => dispatch(closeAuthModal())}>
       {(loginResult.isLoading || signUpResult.isLoading) && (
         <div className="absolute w-full h-full top-0 left-0 flex items-center justify-center bg-background/50 rounded-xl border-2 border-main">
@@ -105,8 +110,7 @@ function AuthModal() {
           </p>
         )}
       </form>
-    </Modal>,
-    document.body
+    </Modal>
   );
 }
 

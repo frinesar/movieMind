@@ -7,15 +7,27 @@ import {
 } from "../reducers/accessTokenSlice";
 import { useLogoutMutation } from "../api/api";
 import { openAuthModal } from "../reducers/authModalSlice";
+import { useEffect, useState } from "react";
 
 function Header() {
   const dispatch = useAppDispatch();
   const [logout] = useLogoutMutation();
   const openModalHandler = () => dispatch(openAuthModal());
   const tokenStatus = useAppSelector(selectAccessTokenStatus);
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem("theme");
+    if (!savedMode) {
+      localStorage.setItem("theme", "light");
+    }
+    return savedMode === "light" ? false : true;
+  });
+  useEffect(() => {
+    document.querySelector("html")?.classList.toggle("dark", darkMode);
+    localStorage.theme = darkMode ? "dark" : "light";
+  }, [darkMode]);
 
   return (
-    <div className="wrapper pt-6 font-main flex items-center justify-between select-none">
+    <div className="wrapper pt-6 font-main flex items-center justify-between select-none text-main dark:text-mainDark">
       <Link to="/">
         <p className="font-bold text-3xl">MovieMind</p>
         <p className="font-medium -mt-2 ">
@@ -24,6 +36,13 @@ function Header() {
       </Link>
 
       <div className="flex items-center">
+        <svg height={40} width={40} onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? (
+            <use href="/icons.svg#dark_mode" />
+          ) : (
+            <use href="/icons.svg#light_mode" />
+          )}
+        </svg>
         {tokenStatus === "fulfilled" && (
           <>
             <Link to="/reviews">Reviews</Link>

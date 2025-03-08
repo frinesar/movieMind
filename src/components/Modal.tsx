@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 function Modal({
   children,
@@ -7,7 +8,7 @@ function Modal({
   children: ReactNode;
   closeModal: () => void;
 }) {
-  return (
+  return createPortal(
     <div
       onClick={() => closeModal()}
       className="z-40 bg-black/50  absolute top-0 left-0 w-full h-full flex justify-center items-center"
@@ -15,7 +16,8 @@ function Modal({
       <div onClick={(e) => e.stopPropagation()} className="relative">
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
