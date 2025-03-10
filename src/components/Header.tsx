@@ -35,8 +35,18 @@ function Header() {
         </p>
       </Link>
 
-      <div className="flex items-center">
-        <svg height={40} width={40} onClick={() => setDarkMode(!darkMode)}>
+      <div className="flex items-center gap-x-2.5">
+        {tokenStatus === "fulfilled" && (
+          <Link to="/reviews" className="font-medium">
+            Reviews
+          </Link>
+        )}
+        <Link to="/search">
+          <svg height={25} width={25} onClick={() => console.log("search")}>
+            <use href="/icons.svg#search" />
+          </svg>
+        </Link>
+        <svg height={25} width={25} onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? (
             <use href="/icons.svg#dark_mode" />
           ) : (
@@ -44,31 +54,25 @@ function Header() {
           )}
         </svg>
         {tokenStatus === "fulfilled" && (
-          <>
-            <Link to="/reviews">Reviews</Link>
-            <svg
-              color="red"
-              onClick={() => {
-                logout();
-                dispatch(setAccessToken({ token: "", status: "idle" }));
-              }}
-              height={40}
-              width={40}
-            >
-              <use href="/icons.svg#logout" />
-            </svg>
-          </>
+          <svg
+            onClick={() => {
+              logout();
+              dispatch(setAccessToken({ token: "", status: "idle" }));
+            }}
+            height={25}
+            width={25}
+          >
+            <use href="/icons.svg#logout" />
+          </svg>
         )}
         {(tokenStatus === "idle" || tokenStatus === "rejected") && (
           <>
             <svg
-              color="#1e1e1e"
               onClick={() => {
-                console.log("clicked");
                 openModalHandler();
               }}
-              height={40}
-              width={40}
+              height={25}
+              width={25}
             >
               <use href="/icons.svg#login" />
             </svg>

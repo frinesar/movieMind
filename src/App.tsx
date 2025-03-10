@@ -7,19 +7,18 @@ import {
   selectAccessTokenStatus,
 } from "./reducers/accessTokenSlice";
 import MainPage from "./pages/MainPage";
+import MoviePage from "./pages/MoviePage";
+import ReviewsPage from "./pages/ReviewsPage";
+import ReviewPage from "./pages/ReviewPage";
 
 const ProtectedRoutes = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
   const tokenStatus = useAppSelector(selectAccessTokenStatus);
   if (tokenStatus === "idle") {
     dispatch(refreshToken());
-  }
-
-  if (tokenStatus === "rejected") {
-    console.log("Давай сюда пароль ежжжи");
+  } else if (tokenStatus === "rejected") {
     return <Navigate to="/" />;
   }
-
   return children;
 };
 
@@ -38,9 +37,32 @@ function App() {
           <Route
             path="/reviews/*"
             element={
-              <ProtectedRoutes>
-                <div>Reviews</div>
-              </ProtectedRoutes>
+              <Routes>
+                <Route
+                  path="/new"
+                  element={
+                    <ProtectedRoutes>
+                      <ReviewPage />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path="/:id"
+                  element={
+                    <ProtectedRoutes>
+                      <ReviewPage />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  index
+                  element={
+                    <ProtectedRoutes>
+                      <ReviewsPage />
+                    </ProtectedRoutes>
+                  }
+                />
+              </Routes>
             }
           />
           <Route
@@ -51,7 +73,7 @@ function App() {
               </ProtectedRoutes>
             }
           />
-          <Route path="/movie/:id" element={<div>movie</div>} />
+          <Route path="/movie/:id" element={<MoviePage />} />
         </Routes>
       </BrowserRouter>
     </>

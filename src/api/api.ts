@@ -3,6 +3,7 @@ import { createApi, BaseQueryFn } from "@reduxjs/toolkit/query/react";
 import { AxiosError, AxiosRequestConfig } from "axios";
 import { ITrendingMovies } from "../types/ITrendingMovies";
 import { IReview } from "../types/IReview";
+import { IMovie } from "../types/IMovie";
 
 const axiosBaseQuery =
   (): BaseQueryFn<
@@ -54,6 +55,25 @@ export const apiSlice = createApi({
           method: "get",
         }),
       }),
+      getReviewByID: build.query<IReview, string>({
+        query: (id) => ({
+          url: `/reviews/${id}`,
+          method: "get",
+        }),
+      }),
+      updateReview: build.mutation<IReview, IReview>({
+        query: (review) => ({
+          url: `/reviews/${review.reviewID}`,
+          method: "put",
+          data: review,
+        }),
+      }),
+      getMovieByID: build.query<IMovie, string>({
+        query: (id) => ({
+          url: `/tmdb/movie/${id}`,
+          method: "get",
+        }),
+      }),
       login: build.mutation<
         { accessToken: string },
         { username: string; password: string }
@@ -83,7 +103,11 @@ export const apiSlice = createApi({
 
 export const {
   useGetTrendingMoviesQuery,
-  useLazyGetUsersReviewsQuery,
+  useGetMovieByIDQuery,
+  useLazyGetMovieByIDQuery,
+  useGetUsersReviewsQuery,
+  useGetReviewByIDQuery,
+  useUpdateReviewMutation,
   useLoginMutation,
   useLogoutMutation,
   useSignUpMutation,

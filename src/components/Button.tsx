@@ -4,19 +4,31 @@ function Button({
   children,
   icon,
   className,
+  disabled,
+  onClick,
 }: {
   children: ReactNode;
   icon?: string;
   className?: string;
+  disabled?: boolean;
+  onClick?: () => void;
 }) {
   return (
-    <button className={`py-1 px-6 ${className}`}>
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`py-1.5 px-5 ${
+        disabled ? "cursor-wait" : "cursor-pointer"
+      } border-4 border-accent rounded-full leading-none ${className}`}
+    >
       {icon && (
-        <svg>
-          <use href={`/icons.svg#${icon}`} className="mr-2.5" />
+        <svg height={20} width={20} className="mr-1 inline-block align-middle">
+          <use href={`/icons.svg#${icon}`} />
         </svg>
       )}
-      <span className="leading-none font-medium ">{children}</span>
+      <span className="leading-none font-medium inline-block align-middle">
+        {children}
+      </span>
     </button>
   );
 }

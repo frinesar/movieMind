@@ -10,7 +10,7 @@ function MainPage() {
     <div className="m-auto">
       <section className="py-6 wrapper">
         <Heading>Trending movies</Heading>
-        <div className="mt-6 pb-4 flex  gap-4 overflow-x-auto snap-x lg:snap-none ">
+        <div className="mt-6 pb-4 flex gap-4 overflow-x-auto snap-x lg:snap-none ">
           {trendingMovies.isLoading &&
             [...Array(20)].map(() => (
               <MovieSkeleton className="w-[min(384px,100%)] shrink-0 aspect-[16/9]" />
@@ -18,6 +18,7 @@ function MainPage() {
           {trendingMovies.isSuccess &&
             trendingMovies.data.results.map((movie) => (
               <MovieHorizontalCard
+                key={movie.id}
                 className="snap-start shrink-0"
                 movie={movie}
               />

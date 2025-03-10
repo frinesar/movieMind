@@ -2,8 +2,8 @@ import { ClipLoader } from "react-spinners";
 
 function LoadingSpinner() {
   return (
-    <div>
-      <ClipLoader />
+    <div className="text-main dark:text-mainDark flex items-center justify-center">
+      <ClipLoader color="currentColor" size={40} />
     </div>
   );
 }
