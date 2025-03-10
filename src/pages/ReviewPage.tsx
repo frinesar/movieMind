@@ -81,12 +81,8 @@ function ReviewPage() {
               })}
             </p>
             <div>
-              <input
-                className={`text-right font-bold w-fit ${color}`}
-                type="number"
-                inputMode="decimal"
-                min={0}
-                max={10}
+              <select
+                className={`text-center font-bold w-fit ${color}`}
                 value={editedReview.personalRating}
                 onChange={(e) =>
                   setEditedReview({
@@ -94,7 +90,18 @@ function ReviewPage() {
                     personalRating: Number(e.target.value),
                   })
                 }
-              />
+              >
+                {/* @ts-ignore */}
+                {[...Array(10)].map((item, index) => (
+                  <option
+                    className="text-main dark:text-mainDark"
+                    value={index + 1}
+                  >
+                    {index + 1}
+                  </option>
+                ))}
+              </select>
+
               <span>/10</span>
             </div>
           </div>
