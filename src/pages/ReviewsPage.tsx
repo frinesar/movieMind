@@ -4,7 +4,9 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import ReviewCard from "../components/ReviewCard";
 
 function ReviewsPage() {
-  const { data, isLoading, isSuccess } = useGetUsersReviewsQuery();
+  const { data, isLoading, isSuccess } = useGetUsersReviewsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   return (
     <div className="wrapper py-6">
