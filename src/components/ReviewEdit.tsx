@@ -1,21 +1,30 @@
-import { Link, useParams } from "react-router";
-import { useGetReviewByIDQuery, useUpdateReviewMutation } from "../api/api";
+import { Link, useNavigate, useParams } from "react-router";
+import {
+  useDeleteReviewMutation,
+  useGetReviewByIDQuery,
+  useUpdateReviewMutation,
+} from "../api/api";
 import { useEffect, useState } from "react";
-import MovieSkeleton from "../components/MovieSkeleton";
-import AutoExpandingTextarea from "../components/AutoExpandingTextarea";
 import { IReview } from "../types/IReview";
-import Button from "../components/Button";
+import MovieSkeleton from "./MovieSkeleton";
+import AutoExpandingTextarea from "./AutoExpandingTextarea";
+import Button from "./Button";
+import RatingSelector from "./RatingSelector";
 
-function ReviewPage() {
+function ReviewEdit() {
   const { id } = useParams();
-  const review = useGetReviewByIDQuery(id!);
+  const review = useGetReviewByIDQuery(id!, {
+    refetchOnMountOrArgChange: true,
+  });
+  const navigate = useNavigate();
   const [updateReview, updatedReview] = useUpdateReviewMutation();
+  const [deleteReview, deletedReview] = useDeleteReviewMutation();
   const [editedReview, setEditedReview] = useState<IReview>({
     reviewID: "",
     movieID: "",
     movieTitle: "",
     text: "",
-    personalRating: 0,
+    personalRating: 1,
     updatedAt: "",
     createdAt: "",
   });
@@ -32,6 +41,12 @@ function ReviewPage() {
     }
   }, [updatedReview.isSuccess, updatedReview.data]);
 
+  useEffect(() => {
+    if (deletedReview.isSuccess) {
+      navigate("/reviews");
+    }
+  }, [deletedReview.isSuccess]);
+
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     if (
@@ -42,12 +57,10 @@ function ReviewPage() {
     }
   };
 
-  const color =
-    editedReview.personalRating >= 8
-      ? "text-excellent"
-      : editedReview.personalRating >= 6
-      ? "text-average"
-      : "text-bad";
+  const deleteReviewHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+    deleteReview(editedReview.reviewID);
+  };
 
   return (
     <div className="wrapper py-6">
@@ -80,34 +93,31 @@ function ReviewPage() {
                 year: "numeric",
               })}
             </p>
-            <div>
-              <select
-                className={`text-center font-bold w-fit ${color}`}
-                value={editedReview.personalRating}
-                onChange={(e) =>
-                  setEditedReview({
-                    ...editedReview,
-                    personalRating: Number(e.target.value),
-                  })
-                }
-              >
-                {/* @ts-ignore */}
-                {[...Array(10)].map((item, index) => (
-                  <option
-                    className="text-main dark:text-mainDark"
-                    value={index + 1}
-                  >
-                    {index + 1}
-                  </option>
-                ))}
-              </select>
-
-              <span>/10</span>
-            </div>
+            <RatingSelector
+              value={editedReview.personalRating}
+              onChange={(e) =>
+                setEditedReview({
+                  ...editedReview,
+                  personalRating: Number(e.target.value),
+                })
+              }
+            />
           </div>
-          <div className="flex justify-center">
-            <Button className="mt-6" disabled={updatedReview.isLoading}>
+          <div className="flex justify-center gap-2.5">
+            <Button
+              type="primary"
+              className="mt-6"
+              disabled={updatedReview.isLoading}
+            >
               {updatedReview.isLoading ? "Updating review" : "Update review"}
+            </Button>
+            <Button
+              onClick={deleteReviewHandler}
+              type="secondary"
+              className="mt-6"
+              disabled={deletedReview.isLoading}
+            >
+              {deletedReview.isLoading ? "Deleting review" : "Delete review"}
             </Button>
           </div>
         </form>
@@ -123,4 +133,4 @@ function ReviewPage() {
   );
 }
 
-export default ReviewPage;
+export default ReviewEdit;

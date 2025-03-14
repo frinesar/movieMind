@@ -78,7 +78,7 @@ function AuthModal() {
           />
         </div>
         <div className="flex justify-center">
-          <Button className="mt-6 mx-auto border-4">
+          <Button className="mt-6 mx-auto border-4" type="accent">
             {isNewProfile ? "Sign up" : "Login"}
           </Button>
         </div>

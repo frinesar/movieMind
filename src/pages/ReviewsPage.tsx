@@ -15,7 +15,9 @@ function ReviewsPage() {
         <>
           <div className="flex justify-between items-center">
             <p>Total reviews: {data.length}</p>
-            <Button icon="add_review">Write a new review</Button>
+            <Button type="accent" icon="add_review">
+              Write a new review
+            </Button>
           </div>
           <div className="flex flex-col gap-2.5 mt-6">
             {data.map((review) => (

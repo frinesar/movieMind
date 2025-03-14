@@ -4,6 +4,7 @@ import { AxiosError, AxiosRequestConfig } from "axios";
 import { ITrendingMovies } from "../types/ITrendingMovies";
 import { IReview } from "../types/IReview";
 import { IMovie } from "../types/IMovie";
+import { IMoviesSearch } from "../types/IMovieSearch";
 
 const axiosBaseQuery =
   (): BaseQueryFn<
@@ -61,6 +62,17 @@ export const apiSlice = createApi({
           method: "get",
         }),
       }),
+
+      createReview: build.mutation<
+        IReview,
+        Omit<IReview, "reviewID" | "createdAt" | "updatedAt" | "movieTitle">
+      >({
+        query: (review) => ({
+          url: `/reviews`,
+          method: "post",
+          data: review,
+        }),
+      }),
       updateReview: build.mutation<IReview, IReview>({
         query: (review) => ({
           url: `/reviews/${review.reviewID}`,
@@ -68,9 +80,21 @@ export const apiSlice = createApi({
           data: review,
         }),
       }),
+      deleteReview: build.mutation<void, string>({
+        query: (id) => ({
+          url: `/reviews/${id}`,
+          method: "delete",
+        }),
+      }),
       getMovieByID: build.query<IMovie, string>({
         query: (id) => ({
           url: `/tmdb/movie/${id}`,
+          method: "get",
+        }),
+      }),
+      findMovie: build.query<IMoviesSearch, string>({
+        query: (query) => ({
+          url: `/tmdb/search/movie?query=${query}`,
           method: "get",
         }),
       }),
@@ -105,9 +129,12 @@ export const {
   useGetTrendingMoviesQuery,
   useGetMovieByIDQuery,
   useLazyGetMovieByIDQuery,
+  useLazyFindMovieQuery,
+  useCreateReviewMutation,
   useGetUsersReviewsQuery,
   useGetReviewByIDQuery,
   useUpdateReviewMutation,
+  useDeleteReviewMutation,
   useLoginMutation,
   useLogoutMutation,
   useSignUpMutation,

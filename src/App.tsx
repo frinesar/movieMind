@@ -9,7 +9,9 @@ import {
 import MainPage from "./pages/MainPage";
 import MoviePage from "./pages/MoviePage";
 import ReviewsPage from "./pages/ReviewsPage";
-import ReviewPage from "./pages/ReviewPage";
+import ReviewEdit from "./components/ReviewEdit";
+import ReviewNew from "./components/ReviewNew";
+import SearchPage from "./pages/SearchPage";
 
 const ProtectedRoutes = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
@@ -34,15 +36,16 @@ function App() {
         <Header />
         <Routes>
           <Route index element={<MainPage />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route
             path="/reviews/*"
             element={
               <Routes>
                 <Route
-                  path="/new"
+                  path="/new/:movieID"
                   element={
                     <ProtectedRoutes>
-                      <ReviewPage />
+                      <ReviewNew />
                     </ProtectedRoutes>
                   }
                 />
@@ -50,7 +53,7 @@ function App() {
                   path="/:id"
                   element={
                     <ProtectedRoutes>
-                      <ReviewPage />
+                      <ReviewEdit />
                     </ProtectedRoutes>
                   }
                 />

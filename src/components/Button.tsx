@@ -5,13 +5,15 @@ function Button({
   icon,
   className,
   disabled,
+  type,
   onClick,
 }: {
   children: ReactNode;
+  type: "primary" | "secondary" | "accent";
   icon?: string;
   className?: string;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (x?: any) => void;
 }) {
   return (
     <button
@@ -19,7 +21,13 @@ function Button({
       disabled={disabled}
       className={`py-1.5 px-5 ${
         disabled ? "cursor-wait" : "cursor-pointer"
-      } border-4 border-accent rounded-full leading-none ${className}`}
+      } border-4 ${
+        type === "accent"
+          ? "border-accent"
+          : type === "primary"
+          ? "border-primary"
+          : "border-secondary"
+      } rounded-full leading-none ${className}`}
     >
       {icon && (
         <svg height={20} width={20} className="mr-1 inline-block align-middle">

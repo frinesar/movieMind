@@ -7,6 +7,7 @@ function AutoExpandingTextarea({
 }) {
   return (
     <textarea
+      required
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className="w-full resize-none field-sizing-content font-userText outline-none text-justify "
