@@ -21,9 +21,11 @@ function MovieRow({ movie }: { movie: IMovieSearch }) {
             <svg height={24} width={24} color="#FFCC00">
               <use href={`/icons.svg#star`}></use>
             </svg>
-            <p className="text-itemBackgroundDark dark:text-itemBackground tracking-wide">
-              {movie.vote_average.toFixed(1)} ({movie.vote_count})
-            </p>
+            {movie.vote_count && movie.vote_average && (
+              <p className="text-itemBackgroundDark dark:text-itemBackground tracking-wide">
+                {movie.vote_average.toFixed(1)} ({movie.vote_count})
+              </p>
+            )}
           </div>
         </div>
       </div>
