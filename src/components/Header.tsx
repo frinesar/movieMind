@@ -8,7 +8,6 @@ import {
 import { useLogoutMutation } from "../api/api";
 import { openAuthModal } from "../reducers/authModalSlice";
 import { useEffect, useState } from "react";
-import Button from "./Button";
 
 function Header() {
   const dispatch = useAppDispatch();
