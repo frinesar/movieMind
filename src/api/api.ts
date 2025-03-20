@@ -5,6 +5,9 @@ import { ITrendingMovies } from "../types/ITrendingMovies";
 import { IReview } from "../types/IReview";
 import { IMovie } from "../types/IMovie";
 import { IMoviesSearch } from "../types/IMovieSearch";
+import { ICredits } from "../types/ICredits";
+import { IRecommendations } from "../types/IRecommendations";
+import { ITrendingPeople } from "../types/ITrendingPeople";
 
 const axiosBaseQuery =
   (): BaseQueryFn<
@@ -47,6 +50,12 @@ export const apiSlice = createApi({
       getTrendingMovies: build.query<ITrendingMovies, "week" | "day">({
         query: (timeWindow) => ({
           url: `/tmdb/trending/movie/${timeWindow}`,
+          method: "get",
+        }),
+      }),
+      getTrendingPeople: build.query<ITrendingPeople, "week" | "day">({
+        query: (timeWindow) => ({
+          url: `/tmdb/trending/person/${timeWindow}`,
           method: "get",
         }),
       }),
@@ -98,6 +107,24 @@ export const apiSlice = createApi({
           method: "get",
         }),
       }),
+      getCredits: build.query<ICredits, string>({
+        query: (id) => ({
+          url: `/tmdb/movie/${id}/credits`,
+          method: "get",
+        }),
+      }),
+      getRecommendations: build.query<IRecommendations, string>({
+        query: (id) => ({
+          url: `/tmdb/movie/${id}/recommendations`,
+          method: "get",
+        }),
+      }),
+      getSimilarMovies: build.query<IRecommendations, string>({
+        query: (id) => ({
+          url: `/tmdb/movie/${id}/similar`,
+          method: "get",
+        }),
+      }),
       login: build.mutation<
         { accessToken: string },
         { username: string; password: string }
@@ -127,9 +154,13 @@ export const apiSlice = createApi({
 
 export const {
   useGetTrendingMoviesQuery,
+  useGetTrendingPeopleQuery,
   useGetMovieByIDQuery,
   useLazyGetMovieByIDQuery,
   useLazyFindMovieQuery,
+  useGetRecommendationsQuery,
+  useGetSimilarMoviesQuery,
+  useGetCreditsQuery,
   useCreateReviewMutation,
   useGetUsersReviewsQuery,
   useGetReviewByIDQuery,

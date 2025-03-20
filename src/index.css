@@ -50,6 +50,67 @@ svg {
 select::-ms-expand {
   display: none;
 }
+*::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 20px;
+  background-color: #e6e6e6;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #e6e6e6;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #e6e6e6;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background-color: #666666;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #666666;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #666666;
+}
+
+html.dark {
+  *::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    border-radius: 20px;
+    background-color: #333333;
+  }
+
+  *::-webkit-scrollbar-track:hover {
+    background-color: #333333;
+  }
+
+  *::-webkit-scrollbar-track:active {
+    background-color: #333333;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background-color: #4d4d4d;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #666666;
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+    background-color: #666666;
+  }
+}
 
 @media (width <= 1024px) {
   .wrapper {

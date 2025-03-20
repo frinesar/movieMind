@@ -1,4 +1,4 @@
-export interface IRecommendationsMovies {
+export interface IRecommendations {
   page: number;
   results: Result[];
   total_pages: number;

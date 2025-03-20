@@ -34,50 +34,52 @@ function App() {
     <>
       <BrowserRouter>
         <Header />
-        <Routes>
-          <Route index element={<MainPage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route
-            path="/reviews/*"
-            element={
-              <Routes>
-                <Route
-                  path="/new/:movieID"
-                  element={
-                    <ProtectedRoutes>
-                      <ReviewNew />
-                    </ProtectedRoutes>
-                  }
-                />
-                <Route
-                  path="/:id"
-                  element={
-                    <ProtectedRoutes>
-                      <ReviewEdit />
-                    </ProtectedRoutes>
-                  }
-                />
-                <Route
-                  index
-                  element={
-                    <ProtectedRoutes>
-                      <ReviewsPage />
-                    </ProtectedRoutes>
-                  }
-                />
-              </Routes>
-            }
-          />
-          <Route
-            path="/wishlist"
-            element={
-              <ProtectedRoutes>
-                <div>Reviews</div>
-              </ProtectedRoutes>
-            }
-          />
-          <Route path="/movie/:id" element={<MoviePage />} />
-        </Routes>
+        <div className="pt-16">
+          <Routes>
+            <Route index element={<MainPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route
+              path="/reviews/*"
+              element={
+                <Routes>
+                  <Route
+                    path="/new/:movieID"
+                    element={
+                      <ProtectedRoutes>
+                        <ReviewNew />
+                      </ProtectedRoutes>
+                    }
+                  />
+                  <Route
+                    path="/:id"
+                    element={
+                      <ProtectedRoutes>
+                        <ReviewEdit />
+                      </ProtectedRoutes>
+                    }
+                  />
+                  <Route
+                    index
+                    element={
+                      <ProtectedRoutes>
+                        <ReviewsPage />
+                      </ProtectedRoutes>
+                    }
+                  />
+                </Routes>
+              }
+            />
+            <Route
+              path="/wishlist"
+              element={
+                <ProtectedRoutes>
+                  <div>Reviews</div>
+                </ProtectedRoutes>
+              }
+            />
+            <Route path="/movie/:id" element={<MoviePage />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </>
   );

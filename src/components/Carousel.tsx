@@ -16,7 +16,7 @@ export default function Carousel({ children }: { children: ReactNode }) {
     <div className="relative">
       <button
         onClick={() => handleScroll("left")}
-        className={`absolute left-1 top-1/2 -translate-y-1/2 p-2 bg-itemBackgroundDark/50 dark:bg-itemBackground/50 text-mainDark dark:text-main rounded-full shadow z-40`}
+        className={`hidden md:block absolute left-1 top-1/2 -translate-y-1/2 p-2 bg-itemBackgroundDark/50 dark:bg-itemBackground/50 text-mainDark dark:text-main rounded-full shadow z-40`}
       >
         <svg height={24} width={24}>
           <use href="/icons.svg#chevron_left" />
@@ -32,7 +32,7 @@ export default function Carousel({ children }: { children: ReactNode }) {
 
       <button
         onClick={() => handleScroll("right")}
-        className="absolute right-1 top-1/2 -translate-y-1/2 p-2 bg-itemBackgroundDark/50 dark:bg-itemBackground/50 text-mainDark dark:text-main rounded-full shadow"
+        className="hidden md:block absolute right-1 top-1/2 -translate-y-1/2 p-2 bg-itemBackgroundDark/50 dark:bg-itemBackground/50 text-mainDark dark:text-main rounded-full shadow"
       >
         <svg height={24} width={24}>
           <use href="/icons.svg#chevron_right" />
