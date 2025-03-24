@@ -113,6 +113,7 @@ export const apiSlice = createApi({
           url: `/wishlist/${movieID}`,
           method: "post",
         }),
+        // @ts-ignore
         invalidatesTags: (result, error, movieID) => [
           { type: "Wishlist", id: movieID },
         ],
@@ -128,6 +129,7 @@ export const apiSlice = createApi({
           url: `/wishlist/${movieID}`,
           method: "delete",
         }),
+        // @ts-ignore
         invalidatesTags: (result, error, movieID) => [
           { type: "Wishlist", id: movieID },
         ],
@@ -137,6 +139,7 @@ export const apiSlice = createApi({
           url: `/wishlist/${movieID}`,
           method: "get",
         }),
+        // @ts-ignore
         providesTags: (result, error, movieID) =>
           result ? [{ type: "Wishlist", id: movieID }] : [],
       }),
