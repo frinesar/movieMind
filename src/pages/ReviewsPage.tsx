@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { useGetUsersReviewsQuery } from "../api/api";
 import Button from "../components/Button";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -15,9 +16,11 @@ function ReviewsPage() {
         <>
           <div className="flex justify-between items-center">
             <p>Total reviews: {data.length}</p>
-            <Button type="accent" icon="add_review">
-              Write a new review
-            </Button>
+            <Link to="/search">
+              <Button type="accent" icon="add_review">
+                Write a new review
+              </Button>
+            </Link>
           </div>
           <div className="flex flex-col gap-2.5 mt-6">
             {data.map((review) => (

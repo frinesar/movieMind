@@ -4,10 +4,18 @@ import { formatTime } from "../helpers/timeFormatter";
 import Button from "../components/Button";
 import { formatMoney } from "../helpers/moneyFormatter";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { selectAccessTokenStatus } from "../reducers/accessTokenSlice";
+import { openAuthModal } from "../reducers/authModalSlice";
 
 function MoviePage() {
   const { id } = useParams();
   const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE;
+  const dispatch = useAppDispatch();
+
+  const openModalHandler = () => dispatch(openAuthModal());
+
+  const tokenStatus = useAppSelector(selectAccessTokenStatus);
 
   const { data, isSuccess } = useGetMovieByIDQuery(id!);
   return isSuccess ? (
@@ -127,10 +135,24 @@ function MoviePage() {
               )}
             </div>
             <div className="flex gap-2.5 mt-6 flex-wrap">
-              <Link to={`/reviews/new/${data.id}`}>
-                <Button type="accent">Write a review</Button>
-              </Link>
-              <Button type="primary">Add to wishlist</Button>
+              {tokenStatus === "fulfilled" && (
+                <>
+                  <Link to={`/reviews/new/${data.id}`}>
+                    <Button type="accent">Write a review</Button>
+                  </Link>
+                  <Button type="primary">Add to wishlist</Button>
+                </>
+              )}
+              {(tokenStatus === "rejected" || tokenStatus === "idle") && (
+                <>
+                  <Button type="accent" onClick={() => openModalHandler()}>
+                    Write a review
+                  </Button>
+                  <Button type="primary" onClick={() => openModalHandler()}>
+                    Add to wishlist
+                  </Button>
+                </>
+              )}
               <Button type="secondary">Watch trailer</Button>
             </div>
           </div>
