@@ -8,7 +8,7 @@ function Button({
   type,
   onClick,
 }: {
-  children: ReactNode;
+  children?: ReactNode;
   type: "primary" | "secondary" | "accent";
   icon?: string;
   className?: string;
@@ -30,7 +30,11 @@ function Button({
       } rounded-full leading-none ${className}`}
     >
       {icon && (
-        <svg height={20} width={20} className="mr-1 inline-block align-middle">
+        <svg
+          height={20}
+          width={20}
+          className={`inline-block align-middle ${children && "mr-1"}`}
+        >
           <use href={`/icons.svg#${icon}`} />
         </svg>
       )}
