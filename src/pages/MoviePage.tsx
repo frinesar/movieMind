@@ -1,4 +1,9 @@
-import { useGetMovieByIDQuery } from "../api/api";
+import {
+  useAddToWishlistMutation,
+  useCheckIfMovieInWishlistQuery,
+  useDeleteMovieFromWishlistMutation,
+  useGetMovieByIDQuery,
+} from "../api/api";
 import { Link, useParams } from "react-router";
 import { formatTime } from "../helpers/timeFormatter";
 import Button from "../components/Button";
@@ -12,6 +17,10 @@ function MoviePage() {
   const { id } = useParams();
   const IMAGE_URL = import.meta.env.VITE_TMDB_IMAGE;
   const dispatch = useAppDispatch();
+  const [addToWishlist, addingToWishlistStatus] = useAddToWishlistMutation();
+  const [deleteFromWishlist, deletingFromWishlistStatus] =
+    useDeleteMovieFromWishlistMutation();
+  const isInWishlist = useCheckIfMovieInWishlistQuery(id!);
 
   const openModalHandler = () => dispatch(openAuthModal());
 
@@ -140,7 +149,27 @@ function MoviePage() {
                   <Link to={`/reviews/new/${data.id}`}>
                     <Button type="accent">Write a review</Button>
                   </Link>
-                  <Button type="primary">Add to wishlist</Button>
+                  {isInWishlist.isFetching ||
+                  addingToWishlistStatus.isLoading ||
+                  deletingFromWishlistStatus.isLoading ? (
+                    <LoadingSpinner />
+                  ) : (
+                    <Button
+                      type="primary"
+                      disabled={isInWishlist.isFetching}
+                      onClick={() => {
+                        if (isInWishlist.data?.exists) {
+                          deleteFromWishlist(data.id.toString());
+                        } else {
+                          addToWishlist(data.id.toString());
+                        }
+                      }}
+                    >
+                      {isInWishlist.data?.exists
+                        ? "Delete from wishlist"
+                        : "Add to wishlist"}
+                    </Button>
+                  )}
                 </>
               )}
               {(tokenStatus === "rejected" || tokenStatus === "idle") && (

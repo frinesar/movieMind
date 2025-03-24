@@ -8,7 +8,6 @@ import {
 import { useLogoutMutation } from "../api/api";
 import { openAuthModal } from "../reducers/authModalSlice";
 import { useEffect, useState } from "react";
-import Button from "./Button";
 
 function Header() {
   const dispatch = useAppDispatch();
@@ -66,21 +65,10 @@ function Header() {
               <Link to="/reviews" className="font-medium">
                 Reviews
               </Link>
-              <Link to="/reviews" className="font-medium">
+              <Link to="/wishlist" className="font-medium">
                 Wishlist
               </Link>
-              <Link to="/search">
-                <Button type="accent" icon="add_review" />
-              </Link>
             </>
-          )}
-
-          {(tokenStatus === "idle" || tokenStatus === "rejected") && (
-            <Button
-              type="accent"
-              icon="add_review"
-              onClick={() => openModalHandler()}
-            />
           )}
 
           <Link to="/search">

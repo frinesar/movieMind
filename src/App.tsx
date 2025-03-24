@@ -12,6 +12,7 @@ import ReviewsPage from "./pages/ReviewsPage";
 import ReviewEdit from "./components/ReviewEdit";
 import ReviewNew from "./components/ReviewNew";
 import SearchPage from "./pages/SearchPage";
+import WishlistPage from "./pages/WishlistPage";
 
 const ProtectedRoutes = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
@@ -73,7 +74,7 @@ function App() {
               path="/wishlist"
               element={
                 <ProtectedRoutes>
-                  <div>Reviews</div>
+                  <WishlistPage />
                 </ProtectedRoutes>
               }
             />

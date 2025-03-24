@@ -8,6 +8,7 @@ import { IMoviesSearch } from "../types/IMovieSearch";
 import { ICredits } from "../types/ICredits";
 import { IRecommendations } from "../types/IRecommendations";
 import { ITrendingPeople } from "../types/ITrendingPeople";
+import { IWishlistMovie } from "../types/IWishlistMovie";
 
 const axiosBaseQuery =
   (): BaseQueryFn<
@@ -45,6 +46,7 @@ const axiosBaseQuery =
 export const apiSlice = createApi({
   baseQuery: axiosBaseQuery(),
   reducerPath: "api",
+  tagTypes: ["Wishlist"],
   endpoints: (build) => {
     return {
       getTrendingMovies: build.query<ITrendingMovies, "week" | "day">({
@@ -71,7 +73,6 @@ export const apiSlice = createApi({
           method: "get",
         }),
       }),
-
       createReview: build.mutation<
         IReview,
         Omit<IReview, "reviewID" | "createdAt" | "updatedAt" | "movieTitle">
@@ -100,6 +101,44 @@ export const apiSlice = createApi({
           url: `/tmdb/movie/${id}`,
           method: "get",
         }),
+      }),
+      getWishlist: build.query<IWishlistMovie[], void>({
+        query: () => ({
+          url: `/wishlist`,
+          method: "get",
+        }),
+      }),
+      addToWishlist: build.mutation<void, string>({
+        query: (movieID) => ({
+          url: `/wishlist/${movieID}`,
+          method: "post",
+        }),
+        invalidatesTags: (result, error, movieID) => [
+          { type: "Wishlist", id: movieID },
+        ],
+      }),
+      changeMovieStatusInWishlist: build.mutation<void, string>({
+        query: (movieID) => ({
+          url: `/wishlist/${movieID}`,
+          method: "put",
+        }),
+      }),
+      deleteMovieFromWishlist: build.mutation<void, string>({
+        query: (movieID) => ({
+          url: `/wishlist/${movieID}`,
+          method: "delete",
+        }),
+        invalidatesTags: (result, error, movieID) => [
+          { type: "Wishlist", id: movieID },
+        ],
+      }),
+      checkIfMovieInWishlist: build.query<{ exists: boolean }, string>({
+        query: (movieID) => ({
+          url: `/wishlist/${movieID}`,
+          method: "get",
+        }),
+        providesTags: (result, error, movieID) =>
+          result ? [{ type: "Wishlist", id: movieID }] : [],
       }),
       findMovie: build.query<IMoviesSearch, string>({
         query: (query) => ({
@@ -169,4 +208,9 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useSignUpMutation,
+  useGetWishlistQuery,
+  useAddToWishlistMutation,
+  useDeleteMovieFromWishlistMutation,
+  useChangeMovieStatusInWishlistMutation,
+  useCheckIfMovieInWishlistQuery,
 } = apiSlice;
